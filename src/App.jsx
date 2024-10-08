@@ -4,14 +4,14 @@ const initialTravellers = [
     id: 1, 
     name: 'Jack', 
     phone: 88885555,
-    seatNumber: '1',
+    seatNumber: 1,
     bookingTime: new Date(),
   },
   {
     id: 2, 
     name: 'Rose', 
     phone: 88884444,
-    seatNumber: '3',
+    seatNumber: 3,
     bookingTime: new Date(),
   },
 ];
@@ -19,9 +19,15 @@ const initialTravellers = [
 
 function TravellerRow(props) {
   {/*Q3. Placeholder to initialize local variable based on traveller prop.*/}
+  const traveller = props.traveller;
   return (
     <tr>
 	  {/*Q3. Placeholder for rendering one row of a table with required traveller attribute values.*/}
+      <td>{traveller.id}</td>
+      <td>{traveller.name}</td>
+      <td>{traveller.phone}</td>
+      <td>{traveller.bookingTime.toLocaleString()}</td>
+      <td>{traveller.seatNumber}</td>
     </tr>
   );
 }
@@ -29,6 +35,9 @@ function TravellerRow(props) {
 function Display(props) {
   
 	/*Q3. Write code to render rows of table, reach corresponding to one traveller. Make use of the TravellerRow function that draws one row.*/
+  const travellerRows = props.travellers.map(traveller => 
+    <TravellerRow key={traveller.id} traveller={traveller} />
+  );
 
   return (
     <table className="bordered-table">
@@ -39,10 +48,12 @@ function Display(props) {
           <th>Name</th>
           <th>Phone</th>
           <th>Booking Time</th>
+          <th>Seat Number</th>
         </tr>
       </thead>
       <tbody>
         {/*Q3. write code to call the JS variable defined at the top of this function to render table rows.*/}
+        {travellerRows}
       </tbody>
     </table>
   );
