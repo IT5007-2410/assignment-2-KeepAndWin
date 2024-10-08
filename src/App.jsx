@@ -1,3 +1,12 @@
+// if the seats can be numbered?
+// why I use:
+// {this.state.selector === 3 && <Add bookTraveller={this.bookTraveller} travellers={this.state.travellers} />}
+// {this.state.selector === 4 && <Delete deleteTraveller={this.deleteTraveller} travellers={this.state.travellers} />}
+// to replace:
+// {this.state.selector === 3 && <Add bookTraveller={this.bookTraveller} />}
+// {this.state.selector === 4 && <Delete deleteTraveller={this.deleteTraveller} />}
+// Can work???
+
 /*Q1. JS Variable needs to be created here. Below variable is just an example. Try to add more attributes.*/
 const initialTravellers = [
   {
@@ -70,12 +79,23 @@ class Add extends React.Component {
     e.preventDefault();
     /*Q4. Fetch the passenger details from the add form and call bookTraveller()*/
     const form = document.forms.addTraveller;
-    const traveller = {
-      name: form.travellername.value,
-      phone: form.travellerphone.value,
-      seatNumber: parseInt(form.seatnumber.value)
+    if (form.travellername.value === "" || form.travellerphone.value === "" || form.seatnumber.value === "") {
+      alert("Please enter valid details");
     }
-    this.props.bookTraveller(traveller);
+    else if (parseInt(form.seatnumber.value) <= 0 || parseInt(form.seatnumber.value) > 10) {
+      alert("Please enter valid seat number (1-10)");
+    }
+    else if (this.props.travellers.some(t => t.seatNumber === parseInt(form.seatnumber.value))) {
+      alert("Seat already booked");
+    }
+    else {
+      const traveller = {
+        name: form.travellername.value,
+        phone: form.travellerphone.value,
+        seatNumber: parseInt(form.seatnumber.value)
+      }
+      this.props.bookTraveller(traveller);
+    }
     form.travellername.value = "";
     form.travellerphone.value = "";
     form.seatnumber.value = "";
@@ -104,11 +124,32 @@ class Delete extends React.Component {
     e.preventDefault();
     /*Q5. Fetch the passenger details from the deletion form and call deleteTraveller()*/
     const form = document.forms.deleteTraveller;
-    const traveller = {
-      name: form.travellername.value,
-      seatNumber: parseInt(form.seatnumber.value)
+    if (form.travellername.value !== "" && parseInt(form.seatnumber.value)>0 && parseInt(form.seatnumber.value)<=10) {
+      if (this.props.travellers.some(t => t.name === form.travellername.value)) {
+        var bookedSeat = [];
+        this.props.travellers.forEach(traveller => {
+          if (traveller.name === form.travellername.value) {
+            bookedSeat.push(traveller.seatNumber);
+          }
+        });
+        if (!bookedSeat.includes(parseInt(form.seatnumber.value))) {
+          alert("The passenger has not booked this seat");
+        }
+        else{
+          const traveller = {
+            name: form.travellername.value,
+            seatNumber: parseInt(form.seatnumber.value)
+          }
+          this.props.deleteTraveller(traveller);
+        }
+      }
+      else{
+        alert("No this passenger");
+      }
     }
-    this.props.deleteTraveller(traveller);
+    else {
+      alert("Please enter valid details");
+    }
     form.travellername.value = "";
     form.seatnumber.value = "";
   }
@@ -220,8 +261,8 @@ class TicketToRide extends React.Component {
 		{/*Q5. Code to call the component that deletes a traveller based on a given attribute.*/}
     {this.state.selector === 1 && <Homepage travellers={this.state.travellers} />}
     {this.state.selector === 2 && <Display travellers={this.state.travellers} />}
-    {this.state.selector === 3 && <Add bookTraveller={this.bookTraveller} />}
-    {this.state.selector === 4 && <Delete deleteTraveller={this.deleteTraveller} />}
+    {this.state.selector === 3 && <Add bookTraveller={this.bookTraveller} travellers={this.state.travellers} />}
+    {this.state.selector === 4 && <Delete deleteTraveller={this.deleteTraveller} travellers={this.state.travellers} />}
   </div>
       </div>
     );
