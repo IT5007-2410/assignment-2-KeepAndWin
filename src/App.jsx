@@ -129,6 +129,7 @@ class Homepage extends React.Component {
 	super();
 	}
 	render(){
+    var emptySeats = 10 - this.props.travellers.length;
     const seats = Array(10).fill().map((_, index) => {
       const isTaken = this.props.travellers.some(t => t.seatNumber === index + 1);
       return (
@@ -150,6 +151,7 @@ class Homepage extends React.Component {
     return (
       <div>
         <h2>Seats Status</h2>
+        <h3>Number of Empty Seats: {emptySeats}</h3>
         {seats}
       </div>
     );
