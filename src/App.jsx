@@ -102,13 +102,22 @@ class Delete extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     /*Q5. Fetch the passenger details from the deletion form and call deleteTraveller()*/
+    const form = document.forms.deleteTraveller;
+    const traveller = {
+      name: form.travellername.value,
+      seatNumber: parseInt(form.seatnumber.value)
+    }
+    this.props.deleteTraveller(traveller);
+    form.travellername.value = "";
+    form.seatnumber.value = "";
   }
 
   render() {
     return (
       <form name="deleteTraveller" onSubmit={this.handleSubmit}>
 	    {/*Q5. Placeholder form to enter information on which passenger's ticket needs to be deleted. Below code is just an example.*/}
-	<input type="text" name="travellername" placeholder="Name" />
+        <input type="text" name="travellername" placeholder="Name" />
+        <input type="number" name="seatnumber" placeholder="Seat Number" />
         <button>Delete</button>
       </form>
     );
@@ -180,6 +189,13 @@ class TicketToRide extends React.Component {
 
   deleteTraveller(passenger) {
 	  /*Q5. Write code to delete a passenger from the traveller state variable.*/
+    var newTravellers = []
+    this.state.travellers.forEach(traveller => {
+      if (traveller.name !== passenger.name && traveller.seatNumber !== passenger.seatNumber) {
+        newTravellers.push(traveller);
+      }
+    });
+    this.setState({ travellers: newTravellers });
   }
   render() {
     return (
