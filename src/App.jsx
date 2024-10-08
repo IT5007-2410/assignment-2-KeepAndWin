@@ -68,6 +68,16 @@ class Add extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     /*Q4. Fetch the passenger details from the add form and call bookTraveller()*/
+    const form = document.forms.addTraveller;
+    const traveller = {
+      name: form.travellername.value,
+      phone: form.travellerphone.value,
+      seatNumber: parseInt(form.seatnumber.value)
+    }
+    this.props.bookTraveller(traveller);
+    form.travellername.value = "";
+    form.travellerphone.value = "";
+    form.seatnumber.value = "";
   }
 
   render() {
@@ -75,6 +85,8 @@ class Add extends React.Component {
       <form name="addTraveller" onSubmit={this.handleSubmit}>
 	    {/*Q4. Placeholder to enter passenger details. Below code is just an example.*/}
         <input type="text" name="travellername" placeholder="Name" />
+        <input type="text" name="travellerphone" placeholder="Phone" />
+        <input type="number" name="seatnumber" placeholder="Seat Number" />
         <button>Add</button>
       </form>
     );
@@ -159,6 +171,11 @@ class TicketToRide extends React.Component {
 
   bookTraveller(passenger) {
 	    /*Q4. Write code to add a passenger to the traveller state variable.*/
+      const newTravellers = this.state.travellers.slice();
+      passenger.id = this.state.travellers.length + 1;
+      passenger.bookingTime = new Date();
+      newTravellers.push(passenger);
+      this.setState({ travellers: newTravellers });
   }
 
   deleteTraveller(passenger) {
