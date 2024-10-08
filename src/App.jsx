@@ -137,7 +137,7 @@ class Homepage extends React.Component {
         <div key={index} style={{
           width: '50px', 
           height: '50px', 
-          backgroundColor: isTaken ? 'red' : 'green',
+          backgroundColor: isTaken ? 'grey' : 'green',
           display: 'inline-block',
           margin: '5px',
           textAlign: 'center',
