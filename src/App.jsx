@@ -16,6 +16,7 @@ const initialTravellers = [
   },
 ];
 
+var initialNum = initialTravellers.length;
 
 function TravellerRow(props) {
   {/*Q3. Placeholder to initialize local variable based on traveller prop.*/}
@@ -183,7 +184,8 @@ class TicketToRide extends React.Component {
   bookTraveller(passenger) {
 	    /*Q4. Write code to add a passenger to the traveller state variable.*/
       const newTravellers = this.state.travellers.slice();
-      passenger.id = this.state.travellers.length + 1;
+      initialNum += 1;
+      passenger.id = initialNum;
       passenger.bookingTime = new Date();
       newTravellers.push(passenger);
       this.setState({ travellers: newTravellers });
